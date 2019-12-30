@@ -10,9 +10,11 @@
  */
 
  const instructions = `
- You can use the following commands:
+---------------------
+You can use the following commands:
 /target     To specify a new target (random picture)
 /reveal     To reveal the target
+---------------------
 `
  
 const nanoid = require('nanoid'),
@@ -60,7 +62,7 @@ app.post('/', jsonParser, (req, res) => {
       
       case '/reveal': 
         if(chats[chatId] && chats[chatId].id && chats[chatId].image) {
-          sendMessage(chatId, `[Random image with ID: ${ chatId }](${ chats[chatId].image })`, () => {
+          sendMessage(chatId, `[Random image with ID: ${ id }](${ chats[chatId].image })`, () => {
             sendMessage(chatId, `Revealed image with ID *${ chats[chatId].id }*. Would you like to try again?` + instructions)
           })
         } else sendMessage(chatId, 'Nothing to reveal. Use the /target command first.')
