@@ -42,7 +42,10 @@ function sendMessage(chatId, text, callback) {
   request
   .post(`${ url }/sendMessage`)
   .form({ chat_id: chatId, text })
-  .on('response', response => callback && callback(response))
+  .on('response', response => {
+    console.log(JSON.stringify(response))
+    callback && callback(response)
+  })
 }
 
 
