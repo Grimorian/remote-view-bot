@@ -1,16 +1,20 @@
+const bodyParser = require('body-parser'),
+jsonParser = bodyParser.json()
+
 const express = require('express'),
 app = express()
 port = process.env.PORT || 8080,
 botkey = process.env.BOTKEY || '',
 url = `https://api.telegram.org/bot${ botkey }/getMe`
 
+
 app.get('/', (req, res) => {
     res.send('Remote Viewer Bot API')
 })
 
-app.post('/', (req, res) => {
-    console.log(req.query)
-    res.send(req.query)
+app.post('/', jsonParser, (req, res) => {
+    console.log(req.body)
+    res.send(req.body)
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
