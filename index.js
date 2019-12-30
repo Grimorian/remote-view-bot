@@ -37,11 +37,11 @@ app.get('/', (req, res) => {
 
 app.post('/', jsonParser, (req, res) => {
     console.log('Update received')
-    console.log(req.body)
     
     const chatId = req.body.message.chat.id,
     name = req.body.message.from.first_name,
     msg = req.body.message.text
+    console.log(`${ chatId } ${ name } ${ message }`)
 
     if(!chats[chatId]) {
       sendMessage(chatId, `Welcome ${ name }, I am the Remote View Bot 🤖.`)
@@ -72,14 +72,14 @@ app.post('/', jsonParser, (req, res) => {
     res.send(req.body)
 })
 
-app.listen(port, () => console.log(`Listening on port ${port}`))
+app.listen(port, () => console.log(`Bot is LISTENING on port ${port}`))
 
 function sendMessage(chatId, text, callback) {
   request
   .post(`${ url }/sendMessage`)
   .form({ chat_id: chatId, text, parse_mode: 'Markdown' })
   .on('response', response => {
-    console.log(JSON.stringify(response))
+    console.log(response.statusCode)
     callback && callback(response)
   })
 }
