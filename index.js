@@ -53,23 +53,22 @@ app.post('/', jsonParser, (req, res) => {
         const id = randomId()
 
         chats[chatId].id = id
-        chats[chatId].image = `https://picsum.photos/seed/${ id }/450`
+        chats[chatId].image = `https://picsum.photos/seed/${ id }/600`
 
         sendMessage(chatId, `✅ OK, I have found a random image and assigned it this random ID: *${ id }*. When you are ready to see the image use the command /reveal.`)
       break
       
       case '/reveal': 
         if(chats[chatId] && chats[chatId].id && chats[chatId].image) {
-          sendMessage(chatId, `Revealing ID *${ chats[chatId].id }*`)
-          sendMessage(chatId, chats[chatId].image)
-          sendMessage(chatId, instructions)
+          sendMessage(chatId, chats[chatId].image, () => {
+            sendMessage(chatId, `Revealed image with ID *${ chats[chatId].id }*. Would you like to try again? ${ instructions }`)
+          })
         } else sendMessage(chatId, 'Nothing to reveal. Use the /target command first.')
       break
         
       default: 
         sendMessage(chatId, instructions)
     }
-    
     res.send(req.body)
 })
 
