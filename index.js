@@ -41,7 +41,7 @@ app.post('/', jsonParser, (req, res) => {
     const chatId = req.body.message.chat.id,
     name = req.body.message.from.first_name,
     msg = req.body.message.text
-    console.log(`${ chatId } ${ name } ${ message }`)
+    console.log(`${ chatId } ${ name } ${ msg }`)
 
     if(!chats[chatId]) {
       sendMessage(chatId, `Welcome ${ name }, I am the Remote View Bot 🤖.`)
