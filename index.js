@@ -44,7 +44,7 @@ app.post('/', jsonParser, (req, res) => {
     msg = req.body.message.text
 
     if(!chats[chatId]) {
-      sendMessage(chatId, `Welcome ${ name }, I am the Remote View bot.`)
+      sendMessage(chatId, `Welcome ${ name }, I am the Remote View Bot 🤖.`)
       chats[chatId] = { id : undefined }
     }
 
@@ -55,14 +55,14 @@ app.post('/', jsonParser, (req, res) => {
         chats[chatId].id = id
         chats[chatId].image = `https://picsum.photos/seed/${ id }/450`
 
-        sendMessage(chatId, 'OK, I have found a random image and assigned it this random ID: ' + id)
-        sendMessage(chatId, 'When you are ready to see the image use the command /reveal')
+        sendMessage(chatId, `✅ OK, I have found a random image and assigned it this random ID: *${ id }*. When you are ready to see the image use the command /reveal.`)
       break
       
       case '/reveal': 
         if(chats[chatId] && chats[chatId].id && chats[chatId].image) {
-          sendMessage(chatId, `Revealing id ${ chats[chatId].id }`)
+          sendMessage(chatId, `Revealing ID *${ chats[chatId].id }*`)
           sendMessage(chatId, chats[chatId].image)
+          sendMessage(chatId, instructions)
         } else sendMessage(chatId, 'Nothing to reveal. Use the /target command first.')
       break
         
