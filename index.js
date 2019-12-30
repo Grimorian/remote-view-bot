@@ -78,7 +78,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`))
 function sendMessage(chatId, text, callback) {
   request
   .post(`${ url }/sendMessage`)
-  .form({ chat_id: chatId, text })
+  .form({ chat_id: chatId, text, parse_mode: 'Markdown' })
   .on('response', response => {
     console.log(JSON.stringify(response))
     callback && callback(response)
