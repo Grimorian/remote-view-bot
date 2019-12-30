@@ -1,11 +1,13 @@
 const bodyParser = require('body-parser'),
 jsonParser = bodyParser.json()
 
+const request = require('request') 
+
 const express = require('express'),
 app = express()
 port = process.env.PORT || 8080,
-botkey = process.env.BOTKEY || '',
-url = `https://api.telegram.org/bot${ botkey }/getMe`
+botkey = process.env.BOTKEY || ':',
+url = `https://api.telegram.org/bot${ botkey }/sendMessage`
 
 
 app.get('/', (req, res) => {
@@ -17,34 +19,15 @@ app.post('/', jsonParser, (req, res) => {
     res.send(req.body)
 })
 
+app.post('/target', jsonParser, target)
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
 
-function target(req, res, next) {
-    http.get(url, res => {
-      const { statusCode } = res
-      const contentType = res.headers['content-type']
-    
-      let error
-      if (statusCode !== 200) {
-        error = new Error('Request Failed.\n' + `Status Code: ${statusCode}`)
-      } 
-
-      if (error) {
-        console.error(error.message)
-        res.resume()
-        return
-      }
-    
-      res.setEncoding('utf8')
-      let rawData = ''
-      res.on('data', (chunk) => { rawData += chunk; });
-      res.on('end', () => {
-        try {
-          const parsedData = JSON.parse(rawData);
-          console.log(parsedData)
-        } catch (e) {
-          console.error(e.message)
-        }
-      })
-    }).on('error', console.error)
+function target(req, res) {
+  request
+  .post(url)
+  .form({ chat_id: req.body.message.chat.id, text: 'Greetings from the server ' + JSON.stringify(req.body.message) })
+  .on('response', response => res.send('Test'))
 }
+
+
